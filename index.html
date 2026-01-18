@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bounoua Fripe & Divers | Seconde Main</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .eco-gradient { background: linear-gradient(135deg, #059669 0%, #10b981 100%); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body>
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b border-slate-200">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-extrabold tracking-tight flex items-center gap-2">
+                <span class="text-emerald-600"><i data-lucide="refresh-cw"></i></span> BOUNOUA <span class="text-slate-400 font-light italic text-lg">Occasion</span>
+            </h1>
+            <div class="flex items-center gap-4">
+                <button onclick="toggleVendre()" class="hidden md:flex items-center gap-2 bg-slate-100 px-4 py-2 rounded-full text-sm font-semibold hover:bg-slate-200 transition">
+                    <i data-lucide="camera" class="w-4"></i> Vendre un article
+                </button>
+                <div class="relative cursor-pointer" onclick="toggleCart()">
+                    <i data-lucide="shopping-basket" class="text-slate-700 w-7"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 eco-gradient text-white text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center border-2 border-white">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="container mx-auto px-4 mt-6">
+        <div class="relative group">
+            <input type="text" id="searchBar" onkeyup="filtrer()" placeholder="Rechercher un jean, une robe, un sac..." 
+                   class="w-full bg-white border border-slate-200 p-4 pl-12 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all">
+            <i data-lucide="search" class="absolute left-4 top-4 text-slate-400"></i>
+        </div>
+    </section>
+
+    <section class="container mx-auto px-4 mt-4 flex gap-2 overflow-x-auto no-scrollbar pb-2">
+        <button onclick="filtrerParCat('Tous')" class="cat-btn bg-emerald-600 text-white px-6 py-2 rounded-full text-sm font-bold shadow-sm whitespace-nowrap">Tous</button>
+        <button onclick="filtrerParCat('Hauts')" class="cat-btn bg-white border border-slate-200 px-6 py-2 rounded-full text-sm font-bold whitespace-nowrap hover:border-emerald-500">Hauts</button>
+        <button onclick="filtrerParCat('Bas')" class="cat-btn bg-white border border-slate-200 px-6 py-2 rounded-full text-sm font-bold whitespace-nowrap hover:border-emerald-500">Bas</button>
+        <button onclick="filtrerParCat('Chaussures')" class="cat-btn bg-white border border-slate-200 px-6 py-2 rounded-full text-sm font-bold whitespace-nowrap hover:border-emerald-500">Chaussures</button>
+        <button onclick="filtrerParCat('Divers')" class="cat-btn bg-white border border-slate-200 px-6 py-2 rounded-full text-sm font-bold whitespace-nowrap hover:border-emerald-500">Divers</button>
+    </section>
+
+    <main class="container mx-auto px-4 py-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="product-grid">
+        </main>
+
+    <div id="cart-modal" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex justify-end">
+        <div class="bg-white w-full max-w-md h-full p-8 flex flex-col shadow-2xl">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold flex items-center gap-2 italic">MON PANIER</h2>
+                <button onclick="toggleCart()" class="p-2 bg-slate-100 rounded-full"><i data-lucide="x"></i></button>
+            </div>
+            
+            <div id="cart-items" class="flex-grow space-y-4 overflow-y-auto pr-2"></div>
+
+            <div class="border-t border-slate-100 pt-6 mt-4">
+                <div class="space-y-4 mb-6">
+                    <div class="flex justify-between text-slate-500 italic">
+                        <span>Sous-total:</span>
+                        <span id="sub-total">0 DA</span>
+                    </div>
+                    <div class="flex justify-between text-slate-500 italic">
+                        <span>Livraison:</span>
+                        <span id="delivery-fee">Gratuit</span>
+                    </div>
+                    <div class="flex justify-between text-2xl font-black text-emerald-700">
+                        <span>TOTAL:</span>
+                        <span id="cart-total">0 DA</span>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <input type="text" id="clientName" placeholder="Nom complet" class="w-full p-3 border border-slate-200 rounded-xl outline-none focus:border-emerald-500">
+                    <input type="tel" id="clientPhone" placeholder="Téléphone" class="w-full p-3 border border-slate-200 rounded-xl outline-none focus:border-emerald-500">
+                    <select id="clientCity" onchange="updateCartUI()" class="w-full p-3 border border-slate-200 rounded-xl outline-none">
+                        <option value="Alger">Alger (400 DA)</option>
+                        <option value="Autre">Autres Wilayas (800 DA)</option>
+                    </select>
+                    <button onclick="envoyerWhatsApp()" class="w-full eco-gradient text-white font-black py-4 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-emerald-200">
+                        CONFIRMER LA COMMANDE
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const produits = [
+            { id: 1, nom: "Veste Vintage 90s", prix: 3500, img: "https://images.unsplash.com/photo-1576995853123-5a103055a150?w=500", cat: "Hauts", taille: "L", etat: "Excellent" },
+            { id: 2, nom: "Jean Levis 501", prix: 4200, img: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=500", cat: "Bas", taille: "42", etat: "Bon" },
+            { id: 3, nom: "Sac Cuir Marron", prix: 2800, img: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500", cat: "Divers", taille: "Unique", etat: "Parfait" },
+            { id: 4, nom: "Sneakers Nike Dunk", prix: 8500, img: "https://images.unsplash.com/photo-1552346154-21d32810aba3?w=500", cat: "Chaussures", taille: "43", etat: "Neuf" }
+        ];
+
+        let panier = [];
+        let currentCat = "Tous";
+
+        function init() {
+            render(produits);
+            lucide.createIcons();
+        }
+
+        function render(items) {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = items.map(p => `
+                <div class="bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm group">
+                    <div class="relative">
+                        <img src="${p.img}" class="w-full h-72 object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute top-3 left-3 flex flex-col gap-2">
+                            <span class="bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-slate-800">${p.etat}</span>
+                        </div>
+                        <div class="absolute bottom-3 right-3 bg-emerald-600 text-white h-10 w-10 flex items-center justify-center rounded-full font-bold shadow-lg">
+                            ${p.taille}
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-slate-800 mb-1 truncate text-lg">${p.nom}</h3>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-xl font-black text-slate-900">${p.prix.toLocaleString()} DA</span>
+                            <button onclick="addToCart(${p.id})" class="bg-emerald-50 text-emerald-600 p-3 rounded-2xl hover:bg-emerald-600 hover:text-white transition">
+                                <i data-lucide="plus" class="w-6 h-6"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function filtrerParCat(cat) {
+            currentCat = cat;
+            const btns = document.querySelectorAll('.cat-btn');
+            btns.forEach(b => {
+                b.className = "cat-btn bg-white border border-slate-200 px-6 py-2 rounded-full text-sm font-bold whitespace-nowrap hover:border-emerald-500";
+                if(b.innerText === cat || (cat === 'Tous' && b.innerText === 'Tous')) b.className = "cat-btn bg-emerald-600 text-white px-6 py-2 rounded-full text-sm font-bold shadow-sm whitespace-nowrap";
+            });
+            const filtered = cat === "Tous" ? produits : produits.filter(p => p.cat === cat);
+            render(filtered);
+        }
+
+        function filtrer() {
+            const q = document.getElementById('searchBar').value.toLowerCase();
+            const filtered = produits.filter(p => p.nom.toLowerCase().includes(q));
+            render(filtered);
+        }
+
+        function addToCart(id) {
+            const item = produits.find(p => p.id === id);
+            panier.push(item);
+            updateCartUI();
+            toggleCart();
+        }
+
+        function updateCartUI() {
+            document.getElementById('cart-count').innerText = panier.length;
+            const list = document.getElementById('cart-items');
+            list.innerHTML = panier.map((p, i) => `
+                <div class="flex items-center gap-4 bg-slate-50 p-4 rounded-2xl">
+                    <img src="${p.img}" class="w-16 h-16 rounded-xl object-cover">
+                    <div class="flex-grow"><p class="font-bold">${p.nom}</p><p class="text-emerald-600 font-bold">${p.prix} DA</p></div>
+                    <button onclick="removeFromCart(${i})" class="text-slate-300 hover:text-red-500"><i data-lucide="trash-2" class="w-5"></i></button>
+                </div>
+            `).join('');
+            
+            const subtotal = panier.reduce((s, p) => s + p.prix, 0);
+            const delivery = panier.length > 0 ? (document.getElementById('clientCity').value === "Alger" ? 400 : 800) : 0;
+            
+            document.getElementById('sub-total').innerText = subtotal.toLocaleString() + " DA";
+            document.getElementById('delivery-fee').innerText = delivery + " DA";
+            document.getElementById('cart-total').innerText = (subtotal + delivery).toLocaleString() + " DA";
+            lucide.createIcons();
+        }
+
+        function removeFromCart(i) { panier.splice(i, 1); updateCartUI(); }
+        function toggleCart() { document.getElementById('cart-modal').classList.toggle('hidden'); }
+        function toggleVendre() { window.open('https://wa.me/213XXXXXXXXX?text=Bonjour, je souhaite vendre un vêtement.', '_blank'); }
+
+        function envoyerWhatsApp() {
+            const nom = document.getElementById('clientName').value;
+            const tel = document.getElementById('clientPhone').value;
+            const ville = document.getElementById('clientCity').value;
+            if(!nom || !tel || panier.length === 0) return alert("Remplissez vos infos !");
+
+            const WHATSAPP_NUM = "213551257581"; // METTEZ VOTRE NUMÉRO ICI
+            let msg = `*COMMANDE SECONDE MAIN*\n👤 Nom: ${nom}\n📞 Tel: ${tel}\n📍 Ville: ${ville}\n\n🛒 Articles:\n`;
+            panier.forEach(p => msg += `- ${p.nom} (Taille ${p.taille}) : ${p.prix} DA\n`);
+            msg += `\n💰 TOTAL : ${document.getElementById('cart-total').innerText}\n(Paiement à la réception)`;
+
+            window.location.href = `https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(msg)}`;
+        }
+
+        init();
+    </script>
+</body>
+</html>
