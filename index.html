@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bounoua Fripe & Divers | Seconde Main</title>
+    <title>Bounoua Occasion | Seconde Main Premium</title>
+    <meta property="og:title" content="Bounoua Occasion - Vêtements Seconde Main">
+    <meta property="og:description" content="Découvrez nos pépites d'occasion au meilleur prix. Paiement à la réception.">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -11,6 +14,7 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #1e293b; }
         .eco-gradient { background: linear-gradient(135deg, #059669 0%, #10b981 100%); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
+        .product-card:hover { transform: translateY(-5px); }
     </style>
 </head>
 <body>
@@ -21,9 +25,6 @@
                 <span class="text-emerald-600"><i data-lucide="refresh-cw"></i></span> BOUNOUA <span class="text-slate-400 font-light italic text-lg">Occasion</span>
             </h1>
             <div class="flex items-center gap-4">
-                <button onclick="toggleVendre()" class="hidden md:flex items-center gap-2 bg-slate-100 px-4 py-2 rounded-full text-sm font-semibold hover:bg-slate-200 transition">
-                    <i data-lucide="camera" class="w-4"></i> Vendre un article
-                </button>
                 <div class="relative cursor-pointer" onclick="toggleCart()">
                     <i data-lucide="shopping-basket" class="text-slate-700 w-7"></i>
                     <span id="cart-count" class="absolute -top-2 -right-2 eco-gradient text-white text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center border-2 border-white">0</span>
@@ -34,7 +35,7 @@
 
     <section class="container mx-auto px-4 mt-6">
         <div class="relative group">
-            <input type="text" id="searchBar" onkeyup="filtrer()" placeholder="Rechercher un jean, une robe, un sac..." 
+            <input type="text" id="searchBar" onkeyup="filtrer()" placeholder="Rechercher un article..." 
                    class="w-full bg-white border border-slate-200 p-4 pl-12 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all">
             <i data-lucide="search" class="absolute left-4 top-4 text-slate-400"></i>
         </div>
@@ -54,26 +55,17 @@
     <div id="cart-modal" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex justify-end">
         <div class="bg-white w-full max-w-md h-full p-8 flex flex-col shadow-2xl">
             <div class="flex justify-between items-center mb-8">
-                <h2 class="text-2xl font-bold flex items-center gap-2 italic">MON PANIER</h2>
+                <h2 class="text-2xl font-bold italic">MON PANIER</h2>
                 <button onclick="toggleCart()" class="p-2 bg-slate-100 rounded-full"><i data-lucide="x"></i></button>
             </div>
             
             <div id="cart-items" class="flex-grow space-y-4 overflow-y-auto pr-2"></div>
 
             <div class="border-t border-slate-100 pt-6 mt-4">
-                <div class="space-y-4 mb-6">
-                    <div class="flex justify-between text-slate-500 italic">
-                        <span>Sous-total:</span>
-                        <span id="sub-total">0 DA</span>
-                    </div>
-                    <div class="flex justify-between text-slate-500 italic">
-                        <span>Livraison:</span>
-                        <span id="delivery-fee">Gratuit</span>
-                    </div>
-                    <div class="flex justify-between text-2xl font-black text-emerald-700">
-                        <span>TOTAL:</span>
-                        <span id="cart-total">0 DA</span>
-                    </div>
+                <div class="space-y-2 mb-6 text-sm">
+                    <div class="flex justify-between text-slate-500"><span>Sous-total:</span><span id="sub-total">0 DA</span></div>
+                    <div class="flex justify-between text-slate-500"><span>Livraison:</span><span id="delivery-fee">0 DA</span></div>
+                    <div class="flex justify-between text-2xl font-black text-emerald-700 pt-2 border-t"><span>TOTAL:</span><span id="cart-total">0 DA</span></div>
                 </div>
 
                 <div class="space-y-3">
@@ -83,9 +75,10 @@
                         <option value="Alger">Alger (400 DA)</option>
                         <option value="Autre">Autres Wilayas (800 DA)</option>
                     </select>
-                    <button onclick="envoyerWhatsApp()" class="w-full eco-gradient text-white font-black py-4 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-emerald-200">
-                        CONFIRMER LA COMMANDE
+                    <button onclick="envoyerWhatsApp()" class="w-full eco-gradient text-white font-black py-4 rounded-2xl flex items-center justify-center gap-2 shadow-lg">
+                        CONFIRMER VIA WHATSAPP
                     </button>
+                    <p class="text-[10px] text-center text-slate-400">Paiement à la réception après vérification</p>
                 </div>
             </div>
         </div>
@@ -94,13 +87,12 @@
     <script>
         const produits = [
             { id: 1, nom: "Veste Vintage 90s", prix: 3500, img: "https://images.unsplash.com/photo-1576995853123-5a103055a150?w=500", cat: "Hauts", taille: "L", etat: "Excellent" },
-            { id: 2, nom: "Jean Levis 501", prix: 4200, img: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=500", cat: "Bas", taille: "42", etat: "Bon" },
-            { id: 3, nom: "Sac Cuir Marron", prix: 2800, img: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500", cat: "Divers", taille: "Unique", etat: "Parfait" },
+            { id: 2, nom: "Jean Levis 501 Blue", prix: 4200, img: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=500", cat: "Bas", taille: "42", etat: "Très Bon" },
+            { id: 3, nom: "Sac à main Cuir", prix: 2800, img: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500", cat: "Divers", taille: "U", etat: "Parfait" },
             { id: 4, nom: "Sneakers Nike Dunk", prix: 8500, img: "https://images.unsplash.com/photo-1552346154-21d32810aba3?w=500", cat: "Chaussures", taille: "43", etat: "Neuf" }
         ];
 
         let panier = [];
-        let currentCat = "Tous";
 
         function init() {
             render(produits);
@@ -109,33 +101,44 @@
 
         function render(items) {
             const grid = document.getElementById('product-grid');
-            grid.innerHTML = items.map(p => `
-                <div class="bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm group">
+            grid.innerHTML = items.map(p => {
+                const shareUrl = window.location.href;
+                const shareText = encodeURIComponent(`Regarde cet article sur Bounoua Occasion : ${p.nom}`);
+                
+                return `
+                <div class="product-card bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm transition-all duration-300">
                     <div class="relative">
-                        <img src="${p.img}" class="w-full h-72 object-cover group-hover:scale-105 transition duration-500">
-                        <div class="absolute top-3 left-3 flex flex-col gap-2">
-                            <span class="bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-slate-800">${p.etat}</span>
-                        </div>
-                        <div class="absolute bottom-3 right-3 bg-emerald-600 text-white h-10 w-10 flex items-center justify-center rounded-full font-bold shadow-lg">
-                            ${p.taille}
-                        </div>
+                        <img src="${p.img}" class="w-full h-72 object-cover">
+                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-emerald-700 border border-emerald-100">${p.etat}</div>
+                        <div class="absolute bottom-3 right-3 bg-white text-slate-900 h-10 w-10 flex items-center justify-center rounded-full font-bold shadow-lg border-2 border-emerald-500">${p.taille}</div>
                     </div>
                     <div class="p-5">
                         <h3 class="font-bold text-slate-800 mb-1 truncate text-lg">${p.nom}</h3>
-                        <div class="flex justify-between items-center mt-4">
+                        
+                        <div class="flex gap-4 mb-4 border-b border-slate-50 pb-3">
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" class="text-blue-600 hover:scale-110 transition"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+                            <a href="https://api.whatsapp.com/send?text=${shareText}%20${shareUrl}" target="_blank" class="text-green-500 hover:scale-110 transition"><i data-lucide="message-circle" class="w-4 h-4"></i></a>
+                            <button onclick="copyLink('${shareUrl}')" class="text-slate-400 hover:scale-110 transition"><i data-lucide="share-2" class="w-4 h-4"></i></button>
+                        </div>
+
+                        <div class="flex justify-between items-center">
                             <span class="text-xl font-black text-slate-900">${p.prix.toLocaleString()} DA</span>
                             <button onclick="addToCart(${p.id})" class="bg-emerald-50 text-emerald-600 p-3 rounded-2xl hover:bg-emerald-600 hover:text-white transition">
-                                <i data-lucide="plus" class="w-6 h-6"></i>
+                                <i data-lucide="shopping-cart" class="w-6 h-6"></i>
                             </button>
                         </div>
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
             lucide.createIcons();
         }
 
+        function copyLink(url) {
+            navigator.clipboard.writeText(url);
+            alert("Lien de la boutique copié !");
+        }
+
         function filtrerParCat(cat) {
-            currentCat = cat;
             const btns = document.querySelectorAll('.cat-btn');
             btns.forEach(b => {
                 b.className = "cat-btn bg-white border border-slate-200 px-6 py-2 rounded-full text-sm font-bold whitespace-nowrap hover:border-emerald-500";
@@ -162,10 +165,10 @@
             document.getElementById('cart-count').innerText = panier.length;
             const list = document.getElementById('cart-items');
             list.innerHTML = panier.map((p, i) => `
-                <div class="flex items-center gap-4 bg-slate-50 p-4 rounded-2xl">
-                    <img src="${p.img}" class="w-16 h-16 rounded-xl object-cover">
-                    <div class="flex-grow"><p class="font-bold">${p.nom}</p><p class="text-emerald-600 font-bold">${p.prix} DA</p></div>
-                    <button onclick="removeFromCart(${i})" class="text-slate-300 hover:text-red-500"><i data-lucide="trash-2" class="w-5"></i></button>
+                <div class="flex items-center gap-4 bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                    <img src="${p.img}" class="w-14 h-14 rounded-xl object-cover">
+                    <div class="flex-grow"><p class="font-bold text-sm text-slate-700">${p.nom}</p><p class="text-emerald-600 font-bold text-sm">${p.prix} DA</p></div>
+                    <button onclick="removeFromCart(${i})" class="text-slate-300 hover:text-red-500 transition"><i data-lucide="trash-2" class="w-4"></i></button>
                 </div>
             `).join('');
             
@@ -180,18 +183,17 @@
 
         function removeFromCart(i) { panier.splice(i, 1); updateCartUI(); }
         function toggleCart() { document.getElementById('cart-modal').classList.toggle('hidden'); }
-        function toggleVendre() { window.open('https://wa.me/213XXXXXXXXX?text=Bonjour, je souhaite vendre un vêtement.', '_blank'); }
 
         function envoyerWhatsApp() {
             const nom = document.getElementById('clientName').value;
             const tel = document.getElementById('clientPhone').value;
             const ville = document.getElementById('clientCity').value;
-            if(!nom || !tel || panier.length === 0) return alert("Remplissez vos infos !");
+            if(!nom || !tel || panier.length === 0) return alert("Veuillez remplir vos infos !");
 
-            const WHATSAPP_NUM = "213551257581"; // METTEZ VOTRE NUMÉRO ICI
-            let msg = `*COMMANDE SECONDE MAIN*\n👤 Nom: ${nom}\n📞 Tel: ${tel}\n📍 Ville: ${ville}\n\n🛒 Articles:\n`;
+            const WHATSAPP_NUM = "213551257581"; // VOTRE NUMÉRO ICI (213...)
+            let msg = `*COMMANDE BOUNOUA OCCASION*\n👤 Nom: ${nom}\n📞 Tel: ${tel}\n📍 Ville: ${ville}\n\n🛒 Articles:\n`;
             panier.forEach(p => msg += `- ${p.nom} (Taille ${p.taille}) : ${p.prix} DA\n`);
-            msg += `\n💰 TOTAL : ${document.getElementById('cart-total').innerText}\n(Paiement à la réception)`;
+            msg += `\n💰 TOTAL À PAYER : ${document.getElementById('cart-total').innerText}`;
 
             window.location.href = `https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(msg)}`;
         }
